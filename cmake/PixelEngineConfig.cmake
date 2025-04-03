@@ -7,5 +7,7 @@ add_definitions(-DSHADER_FOLDER="${PixelEngine_DIR}/shader/")
 
 set(PE_FOUND TRUE)
 set(PE_INCLUDE_DIRS ${PixelEngine_DIR}/include ${GLEW_INCLUDE_DIRS} ${glfw3_INCLUDE_DIRS})
-link_directories(${PixelEngine_DIR}/lib)
+if(EXISTS ${PixelEngine_DIR}/lib)
+	link_directories(${PixelEngine_DIR}/lib)
+endif()
 set(PE_LIBRARIES PixelEngine glm::glm GLEW::glew glfw)
