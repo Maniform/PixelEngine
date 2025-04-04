@@ -41,6 +41,11 @@ PixelEngine::PixelEngine(int width, int height, int frameWidth, int frameHeight)
 	
 	glUseProgram(program);
 	glUniform2ui(glGetUniformLocation(program, "size"), size.x, size.y);
+#ifdef WIN32
+	glUniform2ui(glGetUniformLocation(program, "offset"), 0, 1);
+#else
+	glUniform2ui(glGetUniformLocation(program, "offset"), 1, 0);
+#endif
 	glUseProgram(0);
 	
 	pixels.resize(size.x * size.y);
