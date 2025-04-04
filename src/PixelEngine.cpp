@@ -139,6 +139,11 @@ vec3 PixelEngine::getPixelColor(unsigned int x, unsigned int y) const
 	return pixels[x + y * size.x];
 }
 
+GLFWwindow* PixelEngine::getWindow() const
+{
+	return window;
+}
+
 string PixelEngine::loadShaderFile(const string& filename)
 {
 	ifstream file(filename);

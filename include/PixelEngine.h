@@ -21,6 +21,8 @@ public:
 	void setPixelColor(unsigned int x, unsigned int y, glm::vec3 color);
 	glm::vec3 getPixelColor(unsigned int x, unsigned int y) const;
 	
+	GLFWwindow* getWindow() const;
+	
 private:
 	static PixelEngine* pixelEngine;
 	
