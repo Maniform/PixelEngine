@@ -1,13 +1,13 @@
 #pragma once
 
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
-
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>
 
 #include <string>
+#include <unordered_map>
 #include <vector>
+
+struct GLFWwindow;
 
 class PixelEngine
 {
@@ -22,6 +22,9 @@ public:
 	glm::vec3 getPixelColor(unsigned int x, unsigned int y) const;
 	
 	GLFWwindow* getWindow() const;
+	std::unordered_map<unsigned int, int> getKeys() const;
+	int getKey(unsigned int key) const;
+	double getTime() const;
 	
 private:
 	static PixelEngine* pixelEngine;
@@ -29,22 +32,25 @@ private:
 	std::string shaderFolder = SHADER_FOLDER;
 	
 	GLFWwindow* window;
-	GLuint program;
-	GLuint pixelBuffer;
-	GLuint vao;
-	GLuint fbo;
-	GLuint fbot; //framebuffer texture
+	unsigned int program;
+	unsigned int pixelBuffer;
+	unsigned int vao;
+	unsigned int fbo;
+	unsigned int fbot; //framebuffer texture
 	
 	glm::ivec2 frameSize;
 	glm::ivec2 size;
 	unsigned short overscan;
 	std::vector<glm::vec3> pixels;
 	bool dirty;
+
+	std::unordered_map<unsigned int, int> keys;
 	
 	std::string loadShaderFile(const std::string& filename);
-	GLuint compileShader(GLenum type, const char *source);
-	GLuint linkShaders(GLuint vertexShader, GLuint fragmentShader);
+	unsigned int compileShader(unsigned int type, const char *source);
+	unsigned int linkShaders(unsigned int vertexShader, unsigned int fragmentShader);
 	
 	void render();
 	static void onResized(GLFWwindow* window, int width, int height);
+	static void onKeyPressed(GLFWwindow* window, int key, int scancode, int action, int mods);
 };

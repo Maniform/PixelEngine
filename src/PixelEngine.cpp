@@ -1,5 +1,8 @@
 #include <PixelEngine.h>
 
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+
 #include <fstream>
 
 using namespace std;
@@ -20,12 +23,11 @@ PixelEngine::PixelEngine(int width, int height, int frameWidth, int frameHeight)
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_REVISION, 0);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	window = glfwCreateWindow(frameSize.x, frameSize.y, "PixelEngine", nullptr, nullptr);
 	glfwSetFramebufferSizeCallback(window, onResized);
+	glfwSetKeyCallback(window, onKeyPressed);
 	glfwMakeContextCurrent(window);
-	
 	glewInit();
 	
 	//glfwSwapInterval(1);
@@ -144,6 +146,25 @@ GLFWwindow* PixelEngine::getWindow() const
 	return window;
 }
 
+unordered_map<unsigned int, int> PixelEngine::getKeys() const
+{
+	return keys;
+}
+
+int PixelEngine::getKey(unsigned int key) const
+{
+	if (keys.find(key) == keys.end())
+	{
+		return GLFW_RELEASE;
+	}
+	return keys.at(key);
+}
+
+double PixelEngine::getTime() const
+{
+	return glfwGetTime();
+}
+
 string PixelEngine::loadShaderFile(const string& filename)
 {
 	ifstream file(filename);
@@ -154,7 +175,7 @@ string PixelEngine::loadShaderFile(const string& filename)
 	return string((istreambuf_iterator<char>(file)), istreambuf_iterator<char>());
 }
 
-GLuint PixelEngine::compileShader(GLenum type, const char *source)
+unsigned int PixelEngine::compileShader(unsigned int type, const char *source)
 {
 	GLuint shader = glCreateShader(type);
 	if (shader == 0)
@@ -183,7 +204,7 @@ GLuint PixelEngine::compileShader(GLenum type, const char *source)
 	return shader;
 }
 
-GLuint PixelEngine::linkShaders(GLuint vertexShader, GLuint fragmentShader)
+unsigned int PixelEngine::linkShaders(unsigned int vertexShader, unsigned int fragmentShader)
 {
 	GLuint program = glCreateProgram();
 	if (program == 0)
@@ -261,5 +282,16 @@ void PixelEngine::onResized(GLFWwindow *window, int width, int height)
 	{
 		pixelEngine->frameSize = ivec2(width, height);
 		pixelEngine->dirty = true;
+	}
+}
+
+void PixelEngine::onKeyPressed(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+	if (pixelEngine)
+	{
+		if (action == GLFW_PRESS || action == GLFW_RELEASE)
+		{
+			pixelEngine->keys.insert_or_assign(key, action);
+		}
 	}
 }
