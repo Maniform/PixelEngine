@@ -153,11 +153,15 @@ unordered_map<unsigned int, int> PixelEngine::getKeys() const
 
 int PixelEngine::getKey(unsigned int key) const
 {
-	if (keys.find(key) == keys.end())
+	if (!keys.empty())
 	{
-		return GLFW_RELEASE;
+		if (keys.find(key) != keys.end())
+		{
+			return keys.at(key);
+		}
 	}
-	return keys.at(key);
+
+	return GLFW_RELEASE;
 }
 
 double PixelEngine::getTime() const
