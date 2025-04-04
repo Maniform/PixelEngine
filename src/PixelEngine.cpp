@@ -295,7 +295,7 @@ void PixelEngine::onKeyPressed(GLFWwindow* window, int key, int scancode, int ac
 	{
 		if (action == GLFW_PRESS || action == GLFW_RELEASE)
 		{
-			pixelEngine->keys.insert_or_assign(key, action);
+			pixelEngine->keys[key] = action;
 		}
 	}
 }
