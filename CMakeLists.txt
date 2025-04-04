@@ -21,7 +21,7 @@ target_link_libraries(PixelEngine PRIVATE OpenGL::GL glm::glm ${GLEW_LIBRARIES} 
 
 if(WIN32)
 	get_directory_property(PARENT_DIR PARENT_DIRECTORY)
-	if(IS_DIRECTORY PARENT_DIR)
+	if(IS_DIRECTORY ${PARENT_DIR})
 		set(PE_RUNTIME ${CMAKE_CURRENT_BINARY_DIR}/$<CONFIG>/PixelEngine.dll PARENT_SCOPE)
 	endif()
 endif()
