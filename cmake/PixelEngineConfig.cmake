@@ -14,5 +14,7 @@ endif()
 set(PE_LIBRARIES PixelEngine glm::glm ${GLEW_LIBRARIES} glfw)
 
 if(WIN32)
-	set(PE_RUNTIME ${PixelEngine_DIR}/bin/PixelEngine.dll)
+	if(EXISTS ${PixelEngine_DIR}/bin/PixelEngine.dll)
+		set(PE_RUNTIME ${PixelEngine_DIR}/bin/PixelEngine.dll)
+	endif()
 endif()
