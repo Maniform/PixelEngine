@@ -21,8 +21,8 @@ target_link_libraries(PixelEngine PRIVATE OpenGL::GL glm::glm ${GLEW_LIBRARIES} 
 
 install(TARGETS PixelEngine)
 install(DIRECTORY include DESTINATION .)
-install(DIRECTORY config/ DESTINATION .)
+install(FILES cmake/PixelEngineConfig.cmake DESTINATION .)
 install(DIRECTORY shader DESTINATION .)
 if(WIN32)
-	install(DIRECTORY cmake DESTINATION .)
+	install(FILES cmake/FindGlew.cmake DESTINATION cmake/FindGlew.cmake)
 endif()
